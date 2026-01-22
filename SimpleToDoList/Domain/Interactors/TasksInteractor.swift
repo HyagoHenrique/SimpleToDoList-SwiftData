@@ -22,7 +22,11 @@ struct TasksInteractor {
         repository.add(task)
     }
 
-    func editTask(toDoListId: UUID, task: Tasks) -> Tasks? {
-        repository.edit(toDoListId, task: task)
+    func editTask(taskId: UUID, task: Tasks) -> Tasks? {
+        repository.edit(taskId, task: task)
+    }
+
+    func removeTask(_ taskId: UUID) {
+        repository.delete(taskId)
     }
 }
