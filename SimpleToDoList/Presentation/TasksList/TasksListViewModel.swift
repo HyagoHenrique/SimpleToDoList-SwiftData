@@ -18,17 +18,20 @@ final class TasksListViewModel {
         self.interactor = interactor
     }
 
-    func loadTasks(_ toDoListId: UUID) {
-        tasks = interactor.fetchTasks(toDoListId: toDoListId)
+    func loadTasks() {
+        tasks = interactor.fetchTasks()
     }
     
     func doneTask(_ task: Tasks) {
-        guard let taskRetorno = interactor.editTask(taskId: task.id, task: task) else { return }
+        let taskEdit = Tasks(id: task.id, title: task.title, done: !task.done, dueDate: task.dueDate)
+        guard let taskRetorno = interactor.editTask(taskId: task.id, task: taskEdit) else { return }
         guard let index = tasks.firstIndex(where: { $0.id == task.id }) else { return }
         tasks[index] = taskRetorno
     }
 
     func deleteTask(_ task: Tasks) {
-        interactor.removeTask(task.id)
+        if interactor.removeTask(task.id) {
+            tasks.removeAll(where: { $0.id == task.id })
+        }
     }
 }

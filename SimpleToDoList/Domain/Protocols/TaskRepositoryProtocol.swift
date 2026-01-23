@@ -8,8 +8,8 @@
 import Foundation
 
 protocol TasksRepositoryProtocol {
-    func fetchAll(toDoListId: UUID) -> [Tasks]
-    func add(_ task: Tasks) -> Tasks
+    func fetchAll() -> [Tasks]
+    func add(_ task: Tasks)
     func edit(_ taskId: UUID, task: Tasks) -> Tasks?
     func delete(_ taskId: UUID) -> Bool
 }

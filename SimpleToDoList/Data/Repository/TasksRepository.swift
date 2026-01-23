@@ -16,7 +16,7 @@ final class TasksRepository: TasksRepositoryProtocol {
     }
     
     @MainActor
-    func fetchAll(toDoListId: UUID) -> [Tasks] {
+    func fetchAll() -> [Tasks] {
         let descriptor = FetchDescriptor<TasksModel>(
             sortBy: [SortDescriptor(\.title)]
         )

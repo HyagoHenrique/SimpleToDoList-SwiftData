@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftData
 
 struct TasksInteractor {
     private let repository: TasksRepositoryProtocol
@@ -14,11 +15,11 @@ struct TasksInteractor {
         self.repository = repository
     }
     
-    func fetchTasks(toDoListId: UUID) -> [Tasks] {
-        repository.fetchAll(toDoListId: toDoListId)
+    func fetchTasks() -> [Tasks] {
+        repository.fetchAll()
     }
 
-    func addTask(_ task: Tasks) -> Tasks {
+    func addTask(_ task: Tasks) {
         repository.add(task)
     }
 
@@ -26,7 +27,7 @@ struct TasksInteractor {
         repository.edit(taskId, task: task)
     }
 
-    func removeTask(_ taskId: UUID) {
+    func removeTask(_ taskId: UUID) -> Bool {
         repository.delete(taskId)
     }
 }

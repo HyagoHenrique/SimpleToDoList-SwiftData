@@ -7,9 +7,8 @@
 import Foundation
 
 struct Tasks {
-    let id: UUID
-    let toDoListId: UUID
-    let title: String
-    let done: Bool
-    let dueDate: Date
+    var id: UUID
+    var title: String
+    var done: Bool
+    var dueDate: Date
 }
