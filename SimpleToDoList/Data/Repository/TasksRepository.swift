@@ -25,13 +25,12 @@ final class TasksRepository: TasksRepositoryProtocol {
         return models.map(TasksMapper.toDomain)
     }
 
-    func add(_ task: Tasks) -> Tasks {
+    func add(_ task: Tasks) {
         let model = TasksMapper.toModel(task)
         context.insert(model)
-        return task
     }
-    
-    func edit(_ taskId: UUID, task: Tasks) -> Tasks? {
+
+    func edit(_ taskId: UUID, task: Tasks) {
         let descriptor = FetchDescriptor<TasksModel>(
             predicate: #Predicate { $0.id == taskId }
         )
@@ -43,14 +42,13 @@ final class TasksRepository: TasksRepositoryProtocol {
         model.title = task.title
         model.done = task.done
         model.dueDate = task.dueDate
-        return task
     }
-    
+
     func delete(_ taskId: UUID) -> Bool {
         let descriptor = FetchDescriptor<TasksModel>(
             predicate: #Predicate { $0.id == taskId }
         )
-        
+    
         guard let model = try? context.fetch(descriptor).first else {
             fatalError("Task not found")
         }

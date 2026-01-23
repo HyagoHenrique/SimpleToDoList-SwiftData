@@ -24,9 +24,9 @@ final class TasksListViewModel {
     
     func doneTask(_ task: Tasks) {
         let taskEdit = Tasks(id: task.id, title: task.title, done: !task.done, dueDate: task.dueDate)
-        guard let taskRetorno = interactor.editTask(taskId: task.id, task: taskEdit) else { return }
+        interactor.editTask(taskId: task.id, task: taskEdit)
         guard let index = tasks.firstIndex(where: { $0.id == task.id }) else { return }
-        tasks[index] = taskRetorno
+        tasks[index] = taskEdit
     }
 
     func deleteTask(_ task: Tasks) {

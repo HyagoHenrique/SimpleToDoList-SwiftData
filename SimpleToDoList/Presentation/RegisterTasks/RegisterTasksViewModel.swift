@@ -9,21 +9,57 @@ import Observation
 import Combine
 import Foundation
 
+enum RegisterTasksMode {
+    case create
+    case edit(Tasks)
+}
+
 @Observable
 final class RegisterTasksViewModel {
     var task: Tasks
+    private let interactor: TasksInteractor
+    private(set) var warning: Bool = false
+    private let mode: RegisterTasksMode
     
-    init(_ task: Tasks?, toDoListId: UUID) {
-        self.task = task ?? Tasks(id: UUID(), toDoListId: toDoListId, title: "", done: false, dueDate: Date())
+    var navigationTitle: String {
+        switch mode {
+        case .create:
+            return "Nova Tarefa"
+        case .edit:
+            return "Editar Tarefa"
+        }
+    }
+    
+    init(interactor: TasksInteractor, _ mode: RegisterTasksMode) {
+        self.interactor = interactor
+        self.mode = mode
+        
+        switch mode {
+            case .create:
+            self.task = Tasks(id: UUID(), title: "", done: false, dueDate: Date())
+        case .edit(let task):
+            self.task = task
+        }
     }
 
 
     func saveTask() {
-        if task.title.isEmpty {
+        let trimmed = task.title.trimmingCharacters(in: .whitespaces)
+        guard !trimmed.isEmpty else {
+            warning = true
             return
         }
         
-        // TODO: SaveTask.
+        switch mode {
+            case .create:
+            task.title = trimmed
+            interactor.addTask(task)
+            return
+            case .edit:
+            let updatedTask = Tasks(id: task.id, title: trimmed, done: task.done, dueDate: task.dueDate)
+            _ = interactor.editTask(taskId: task.id, task: updatedTask)
+            return
+        }
     }
 }
 

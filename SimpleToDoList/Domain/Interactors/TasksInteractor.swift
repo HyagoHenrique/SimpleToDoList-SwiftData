@@ -23,7 +23,7 @@ struct TasksInteractor {
         repository.add(task)
     }
 
-    func editTask(taskId: UUID, task: Tasks) -> Tasks? {
+    func editTask(taskId: UUID, task: Tasks) {
         repository.edit(taskId, task: task)
     }
 

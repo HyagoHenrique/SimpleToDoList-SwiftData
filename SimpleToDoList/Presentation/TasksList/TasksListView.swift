@@ -31,11 +31,11 @@ struct TasksListView: View {
                                         viewModel.doneTask(task)
                                     }
                                 Text(task.title)
+                                    .strikethrough(task.done, color: .red)
+                                    .foregroundStyle(task.done ? .secondary : .primary)
                             }
                             Text("Vencimento: \(task.dueDate.formatted(date: .abbreviated, time: .omitted))")
-                        }
-                        .onTapGesture {
-                            
+                                .foregroundStyle(.secondary)
                         }
                     }
                 }
@@ -54,7 +54,7 @@ struct TasksListView: View {
                     }
                 }
             }
-            .task {
+            .onAppear() {
                 viewModel.loadTasks()
             }
         }
@@ -82,15 +82,13 @@ final class FakeTasksRepository: TasksRepositoryProtocol {
         return tasks
     }
 
-    func add(_ task: Tasks) -> Tasks {
+    func add(_ task: Tasks) {
         tasks.append(task)
-        return task
     }
 
-    func edit(_ taskId: UUID, task: Tasks) -> Tasks? {
-        guard let index = tasks.firstIndex(where: {$0.id == taskId }) else { return nil }
+    func edit(_ taskId: UUID, task: Tasks) {
+        guard let index = tasks.firstIndex(where: {$0.id == taskId }) else { return }
         tasks[index] = task
-        return tasks[index]
     }
 
     func delete(_ taskId: UUID) -> Bool {
@@ -99,3 +97,4 @@ final class FakeTasksRepository: TasksRepositoryProtocol {
         return true
     }
 }
+

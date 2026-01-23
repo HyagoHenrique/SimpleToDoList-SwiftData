@@ -10,6 +10,6 @@ import Foundation
 protocol TasksRepositoryProtocol {
     func fetchAll() -> [Tasks]
     func add(_ task: Tasks)
-    func edit(_ taskId: UUID, task: Tasks) -> Tasks?
+    func edit(_ taskId: UUID, task: Tasks)
     func delete(_ taskId: UUID) -> Bool
 }
